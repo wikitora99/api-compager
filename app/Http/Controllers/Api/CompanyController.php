@@ -17,7 +17,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = Company::orderBy('name', 'ASC')->get();
+        $companies = Company::with('employees')->orderBy('name', 'ASC')->get();
         
         return response()->json([
             'message' => 'Showing all companies',
@@ -79,7 +79,7 @@ class CompanyController extends Controller
      */
     public function show($id)
     {
-        $company = Company::find($id);
+        $company = Company::with('employees')->firstWhere('id', $id);
 
         if (!$company) {
             return response()->json([

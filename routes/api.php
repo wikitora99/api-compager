@@ -36,5 +36,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::middleware('admin')->group(function () {
         Route::resource('company', CompanyController::class)->except(['create', 'edit']);
+        Route::resource("employee", EmployeeController::class)->except(['create', 'edit']);
     });
 });
