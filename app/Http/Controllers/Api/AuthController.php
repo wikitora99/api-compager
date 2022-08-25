@@ -26,7 +26,7 @@ class AuthController extends Controller
 
         if (!Auth::attempt($credentials)) {
             return response()->json([
-                'message' => 'The credentials provided are invalid'
+                'message' => 'The credentials provided are not found'
             ], Response::HTTP_NOT_ACCEPTABLE);
         }
 

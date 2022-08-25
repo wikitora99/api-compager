@@ -23,10 +23,18 @@ use App\Http\Controllers\Api\{
 //     return $request->user();
 // });
 
-Route::middleware('guest')->group(function(){
-    Route::post('login', [AuthController::class, 'login'])->name('login');
+Route::middleware('guest')->group(function () {
+    Route::controller(AuthController::class)->group(function () {
+        Route::get('login', fn () => response()->json(['message' => 'Unauthenticated'], 403) )->name('login');
+        Route::post('login', 'login')->name('login.post');
+    });
 });
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', fn (Request $request) => $request->user() );
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
+    Route::middleware('admin')->group(function () {
+        Route::resource('company', CompanyController::class)->except(['create', 'edit']);
+    });
 });
